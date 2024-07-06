@@ -3,14 +3,15 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('User must have an email address')
         if not password:
             raise ValueError('User must have a password')
         
         user = self.model(
-            email=self.normalize_email(email)
+            email=self.normalize_email(email),
+            **extra_fields
         )
         user.set_password(password)
         user.is_admin = False
@@ -18,14 +19,15 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('User must have an email address')
         if not password:
             raise ValueError('User must have a password')
         
         user = self.model(
-            email=self.normalize_email(email)
+            email=self.normalize_email(email), 
+            **extra_fields
         )
         user.set_password(password)
         user.is_admin = True
