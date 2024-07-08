@@ -5,7 +5,7 @@ from rest_framework.authentication import BaseAuthentication
 from app import settings
 from core.models import User
 
-class JWTAuthentication:
+class JWTAuthentication(BaseAuthentication):
     def authenticate(self ,request):
         token = request.COOKIES.get('jwt')
         
