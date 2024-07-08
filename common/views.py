@@ -36,10 +36,8 @@ class LoginAPIView(APIView):
         
         if not user.check_password(password):
             raise exceptions.AuthenticationFailed('Incorrect password!')
-        
-        jwt_authentication = JWTAuthentication()
-        
-        token = jwt_authentication.generate_jwt(user.id)
+                
+        token = JWTAuthentication.generate_jwt(user.id)
         response = Response()
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
