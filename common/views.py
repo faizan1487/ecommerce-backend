@@ -66,3 +66,14 @@ class LogoutAPIView(APIView):
             'message': 'success'
         }
         return response
+
+class ProfileInfoAPIView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def put(self, request, pk=None):
+        user= request.user
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
