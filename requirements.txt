@@ -5,3 +5,4 @@
     django-cors-headers==4.4.0
     django-cors-headers==4.4.0
     PyJWT==2.8.0
+    Faker==26.0.0
