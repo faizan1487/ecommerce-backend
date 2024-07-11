@@ -85,4 +85,12 @@ class ProfilePasswordAPIView(APIView):
     permission_classes = [IsAuthenticated]
     
     def put(self, request, pk=None):
-        pass
+        user = request.user
+        data = request.data
+        
+        if data['password'] != data['password_confirm']:
+            raise exceptions.APIException('Passwords do not match.')
+        
+        user.set_password(data['password'])
+        user.save()
+        return Response(UserSerializer(user).data)
